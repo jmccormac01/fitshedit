@@ -4,12 +4,12 @@ A script to mimic the capabilities of IRAF's hedit command
 
 ## Code Example
 
-Below is the usage for ```fitshedit``` and some examples of editing fitsheaders
+Below is the usage for ```fitshedit``` and some examples of editing fits headers
 
 ```
 usage: fitshedit [-h] [-e E] [-k K] [--dry_run] [--verify] filename
 
-A convenience script to edit fitsheaders
+A convenience script to edit fits headers
 
 positional arguments:
   filename           Filename or wildcard list of filenames
@@ -22,7 +22,7 @@ optional arguments:
   --verify           Verify each file change manually before commiting
 ```
 
-To edit the image ```test.fits`` setting the header keyword ```EXPTIME``` to ```35``` instead of the current value of ```30```. Run:
+To edit the image ```test.fits``` setting the header keyword ```EXPTIME``` to ```35``` instead of the current value of ```30```. Run:
 
 ```
 $> fitshedit test.fits -k EXPTIME=30
@@ -45,7 +45,9 @@ I want to get away from IRAF, but I like some of its features. I am therefore wr
 
 ## Installation
 
+```
 git clone https://github.com/jmccormac01/fitshedit.git
+```
 
 ## API Reference
 

@@ -25,7 +25,7 @@ def argParse():
     """
     Parse the command line arguments
     """
-    description = "A convenience script to edit fitsheaders"
+    description = "A convenience script to edit fits headers"
     parser = ArgumentParser(description=description)
     parser.add_argument('filename',
                         help='Filename or wildcard list of filenames')
