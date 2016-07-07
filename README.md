@@ -37,7 +37,7 @@ Updating EXPTIME=35 --> 30
 Updating IMAGTYP=TEST --> FLAT FIELD
 ```
 
-If a keyword does not exist, it is created. ```--dry_run``` can be used to see the changes without applying them. ```--verify``` is used to manually verify each combined changes for each file.
+If a keyword does not exist, it is created. ```--dry_run``` can be used to see the changes without applying them. ```--verify``` is used to manually verify the combined changes for each file.
 
 ## Motivation
 
