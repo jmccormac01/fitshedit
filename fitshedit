@@ -48,6 +48,19 @@ def argParse():
                         action='store_true')
     return parser.parse_args()
 
+def getImageList(filename_list):
+    """
+    Get the list of Images to edit
+    """
+    if '*' in filename_list:
+        image_list = glob(filename_list)
+    elif ',' in filename_list:
+        image_list = filename_list.split(',')
+    else:
+        # assumed to not be a list by this point
+        image_list = [filename_list]
+    return image_list
+
 def splitKeywordArgs(kwarg_list):
     """
     Split the keyword=argument pairs
@@ -86,19 +99,11 @@ if __name__ == "__main__":
     if len(kwargs) < 1:
         print('No header keywords to edit')
         sys.exit(1)
-
-    # get the list of files to edit
-    if '*' in args.filename:
-        image_list = glob(args.filename)
-    elif ',' in args.filename:
-        image_list = args.filename.split(',')
-    else:
-        image_list = [args.filename]
-
+    # get the list of images
+    image_list = getImageList(args.filename)
     # loop over all images
     for image in image_list:
         data, header = fits.getdata(image, ext=args.e, header=True)
-
         # loop over keywords
         for keyword in kwargs:
             # simulate?
