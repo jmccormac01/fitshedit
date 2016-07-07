@@ -90,6 +90,8 @@ if __name__ == "__main__":
     # get the list of files to edit
     if '*' in args.filename:
         image_list = glob(args.filename)
+    elif ',' in args.filename:
+        image_list = args.filename.split(',')
     else:
         image_list = [args.filename]
 
