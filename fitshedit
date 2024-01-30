@@ -17,6 +17,10 @@ import sys
 from argparse import ArgumentParser
 from glob import glob
 from astropy.io import fits
+from utils import (
+    getImageList,
+    splitKeywordArgs
+    )
 
 # pylint: disable=invalid-name
 # pylint: disable=redefined-outer-name
@@ -47,32 +51,6 @@ def argParse():
                         help='Verify each file change manually before commiting',
                         action='store_true')
     return parser.parse_args()
-
-def getImageList(filename_list):
-    """
-    Get the list of Images to edit
-    """
-    if '*' in filename_list:
-        image_list = glob(filename_list)
-    elif ',' in filename_list:
-        image_list = filename_list.split(',')
-    else:
-        # assumed to not be a list by this point
-        image_list = [filename_list]
-    return image_list
-
-def splitKeywordArgs(kwarg_list):
-    """
-    Split the keyword=argument pairs
-    """
-    kwargs = {}
-    for kwarg in kwarg_list:
-        if '=' in kwarg:
-            key, arg = kwarg.split('=')
-            kwargs[key] = arg
-        else:
-            print('No matching keyword=argument for {0:s}, skipping...'.format(kwarg))
-    return kwargs
 
 def printStatus(header, keyword, kwargs, dry_run):
     """
@@ -112,11 +90,11 @@ if __name__ == "__main__":
                 header[keyword] = kwargs[keyword]
                 # verify?
                 if not args.verify:
-                    fits.writeto(image, data, header, clobber=True)
+                    fits.writeto(image, data, header, overwrite=True)
                 else:
                     ver = input('Update header of {0:s}? (y/n): '.format(image))
                     if ver.lower() == 'y':
-                        fits.writeto(image, data, header, clobber=True)
+                        fits.writeto(image, data, header, overwrite=True)
                         print('{0:s} updated'.format(image))
                     else:
                         print('Update skipped')
