@@ -81,23 +81,23 @@ if __name__ == "__main__":
     image_list = getImageList(args.filename)
     # loop over all images
     for image in image_list:
-        data, header = fits.getdata(image, ext=args.e, header=True)
+        header = fits.getheader(image, ext=args.e)
         # loop over keywords
         for keyword in kwargs:
             # simulate?
             if not args.dry_run:
                 printStatus(header, keyword, kwargs, args.dry_run)
-                header[keyword] = kwargs[keyword]
                 # verify?
                 if not args.verify:
-                    fits.writeto(image, data, header, overwrite=True)
+                    ver = 'y'
                 else:
                     ver = input('Update header of {0:s}? (y/n): '.format(image))
-                    if ver.lower() == 'y':
-                        fits.writeto(image, data, header, overwrite=True)
-                        print('{0:s} updated'.format(image))
-                    else:
-                        print('Update skipped')
+                if ver.lower() == 'y':
+                    with fits.open(image, mode="update") as filehandle:
+                        filehandle[args.e].header[keyword] = kwargs[keyword]
+                    print('{0:s} updated'.format(image))
+                else:
+                    print('Update skipped')
             else:
                 printStatus(header, keyword, kwargs, args.dry_run)
 
